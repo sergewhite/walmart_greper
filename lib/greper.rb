@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 class Greper
-  attr_reader :errors, :reviews, :parsed_data
+  attr_reader :errors, :reviews, :parsed_data, :total_pages
   POOL_SIZE   = 5  # max pool size
   PER_PAGE = 20
   def initialize options = {}
@@ -79,10 +79,8 @@ class Greper
         http.request(req)
       }
       res = JSON.parse res.body
-
-      parsed_response = res["reviewsHtml"]
       #html = Nokogiri.parse parsed_response
-      @parsed_data[page] = parsed
+      @parsed_data[page] = res["reviewsHtml"]
       #need more testing to identify the errors
       rescue
     end

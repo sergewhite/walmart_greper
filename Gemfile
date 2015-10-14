@@ -41,6 +41,7 @@ gem 'json'
 
 # Use unicorn as the app server
 gem 'unicorn'
+gem 'nokogiri'
 
 group :development do
   gem 'thin'
