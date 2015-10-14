@@ -84,7 +84,7 @@ class Greper
     def apply_filter
       if @query.present?
         words = @query.split(" ")
-        @parsed_data.sort_by{|p, text| words.map{|word| text.scan(word).length }.reduce(:+)}
+        @parsed_data.sort_by{|p, text| words.map{|word| text.text.scan(word).length }.reduce(:+)}
       else
         @parsed_data.sort_by{ |p, h| p }
       end
