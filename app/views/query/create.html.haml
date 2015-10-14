@@ -2,6 +2,7 @@
   %h4
     Results for:
     = @greper.product_id
+    = link_to "Back", new_query_path, :class => "btn"
   - @greper.parsed_data.each do |page, html|
     %p
     %p= raw html

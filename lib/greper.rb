@@ -39,9 +39,8 @@ class Greper
     def get_data
       check_pool
       fetch_pages
-      @parsed_data.sort
       # apply fulltext search
-      #apply_filter
+      apply_filter
     end
 
 
@@ -83,8 +82,11 @@ class Greper
     end
 
     def apply_filter
-      @parsed_data.sort.each do |page, data|
-        # apply fulltext filter
+      if @query.present?
+        words = @query.split(" ")
+        @parsed_data.sort_by{|p, text| words.map{|word| text.scan(word).length }.reduce(:+)}
+      else
+        @parsed_data.sort_by{ |p, h| p }
       end
     end
 end
