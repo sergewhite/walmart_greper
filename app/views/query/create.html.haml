@@ -1,1 +1,7 @@
 %h4 Results here
+
+- if defined?(@greper) && @greper.reviews.present?
+  - @greper.reviews.each do |rev|
+    = rev
+- else
+  %h4 There is now reviews for this query

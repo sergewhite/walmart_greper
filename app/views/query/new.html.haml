@@ -1,5 +1,10 @@
 %h4 Enter id and query
 
+- if defined?(@greper) && @greper.errors.present?
+  %h4.bg-warning
+    Errors:
+    = @greper.errors.join('.')
+
 = simple_form_for(:query, url: query_index_path, html: {method: "POST", class: 'form-inline' }) do |f|
   = f.input :id, label: "Product ID: "
   = f.input :query, label: "Keys: "

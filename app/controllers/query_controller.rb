@@ -2,6 +2,8 @@ class QueryController < ApplicationController
   layout "main"
 
   def create
-    result = Greper.new(params[:query]).get_reviews
+    @greper = Greper.new(params[:query])
+    render :new and return if @greper.errors.present?
+    @results = @greper.get_reviews
   end
 end
