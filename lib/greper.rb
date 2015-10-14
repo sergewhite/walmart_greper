@@ -70,14 +70,13 @@ class Greper
       # stop the pool observer
     end
 
-    def fetch_data(page, attempt = 1)
+    def fetch_data(page)
       url = URI.parse("http://www.walmart.com/reviews/api/product/#{@product_id}?limit=#{PER_PAGE}&page=#{page}&sort=helpful&showProduct=false")
       req = Net::HTTP::Get.new(url.to_s)
       res = Net::HTTP.start(url.host, url.port) {|http|
         http.request(req)
       }
       res = JSON.parse res.body
-      #html = Nokogiri.parse parsed_response
       @parsed_data[page] = Nokogiri.parse(res["reviewsHtml"]).search(".js-customer-review-text")
       #need more testing to identify the errors
       rescue
