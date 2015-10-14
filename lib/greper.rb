@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 class Greper
-  attr_reader :errors, :reviews
+  attr_reader :errors, :reviews, :parsed_data
   POOL_SIZE   = 5  # max pool size
   PER_PAGE = 20
   def initialize options = {}
@@ -20,7 +20,7 @@ class Greper
   def get_reviews
     total_reviews = get_total_reviews_count
     @total_pages = total_reviews / 20
-    @total_pages = 1 if total_pages < 1
+    @total_pages = 1 if @total_pages < 1
     get_data if total_reviews > 0
   end
 
@@ -28,8 +28,14 @@ class Greper
 
     def get_total_reviews_count
       url = URI.parse("http://api.walmartlabs.com/v1/reviews/#{@product_id}?format=json&apiKey=q5n9pqab3aurxsr5kfrye44b")
-      req = Net::HTTP.get(url)
+      #req = Net::HTTP.get(url)
+
+      req = Net::HTTP::Get.new(url.to_s)
+      res = Net::HTTP.start(url.host, url.port) {|http|
+        http.request(req)
+      }
       res = JSON.parse res.body
+
       res.try("[]",'reviewStatistics').try('[]','totalReviewCount').to_i
     end
 
@@ -67,8 +73,14 @@ class Greper
     end
 
     def fetch_data(page, attempt = 1)
-      response = Net::HTTP.get(URI.parse("http://www.walmart.com/reviews/api/product/#{@product_id}?limit=#{PER_PAGE}&page=#{page}&sort=helpful&showProduct=false"))
-      parsed_response = JSON.parse(response)["reviewsHtml"]
+      url = URI.parse("http://www.walmart.com/reviews/api/product/#{@product_id}?limit=#{PER_PAGE}&page=#{page}&sort=helpful&showProduct=false")
+      req = Net::HTTP::Get.new(url.to_s)
+      res = Net::HTTP.start(url.host, url.port) {|http|
+        http.request(req)
+      }
+      res = JSON.parse res.body
+
+      parsed_response = res["reviewsHtml"]
       #html = Nokogiri.parse parsed_response
       @parsed_data[page] = parsed
       #need more testing to identify the errors
