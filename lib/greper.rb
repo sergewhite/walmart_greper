@@ -28,7 +28,7 @@ class Greper
 
     def get_total_reviews_count
       url = URI.parse("http://api.walmartlabs.com/v1/reviews/#{@product_id}?format=json&apiKey=q5n9pqab3aurxsr5kfrye44b")
-      req = Net::HTTP::get(url.to_s)
+      req = Net::HTTP.get(url)
       res = JSON.parse res.body
       res.try("[]",'reviewStatistics').try('[]','totalReviewCount').to_i
     end
@@ -71,13 +71,8 @@ class Greper
       parsed_response = JSON.parse(response)["reviewsHtml"]
       #html = Nokogiri.parse parsed_response
       @parsed_data[page] = parsed
-      rescue NetErrors
-        if attempt < 3
-          attempt += 1
-          retry
-        else
-          return
-        end
+      #need more testing to identify the errors
+      rescue
     end
 
     def apply_filter
