@@ -1,5 +1,6 @@
 - if defined?(@greper) && @greper.parsed_data.present?
   - @greper.parsed_data.each do |page, html|
-    = raw Nokogiri.parse(html).search(".js-customer-review").search(".js-customer-review").first.search(".js-customer-review-text").text
+    %p
+    %p= raw Nokogiri.parse(html).search(".js-customer-review-text")
 - else
   %h4 There is now reviews for this query
