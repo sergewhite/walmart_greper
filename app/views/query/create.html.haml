@@ -3,8 +3,13 @@
     Results for:
     = @greper.product_id
     = link_to "Back", new_query_path, :class => "btn"
-  - @greper.parsed_data.each do |page, html|
-    %p
-    %p= raw html
+  - if @greper.parsed_data.is_a?(Array)
+    - @greper.parsed_data.each do |html|
+      %p
+      %p= raw html
+  - else
+    - @greper.parsed_data.each do |page, html|
+      %p
+      %p= raw html
 - else
   %h4 There is now reviews for this query
