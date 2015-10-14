@@ -14,8 +14,7 @@ class Greper
 
   def get_reviews
     total_reviews = get_total_reviews_count
-    if total_reviews > 0
-    end
+    get_data if total_reviews > 0
   end
 
   private
