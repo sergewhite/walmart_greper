@@ -1,3 +1,17 @@
+# == Route Map
+#
+#      Prefix Verb   URI Pattern               Controller#Action
+# query_index GET    /query(.:format)          query#index
+#             POST   /query(.:format)          query#create
+#   new_query GET    /query/new(.:format)      query#new
+#  edit_query GET    /query/:id/edit(.:format) query#edit
+#       query GET    /query/:id(.:format)      query#show
+#             PATCH  /query/:id(.:format)      query#update
+#             PUT    /query/:id(.:format)      query#update
+#             DELETE /query/:id(.:format)      query#destroy
+#        root GET    /                         query#new
+#
+
 Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

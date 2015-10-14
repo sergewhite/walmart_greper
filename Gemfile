@@ -32,7 +32,8 @@ gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootst
 gem 'simple_form'
 gem 'walmart_open'
 gem 'haml'
-gem 'font-awesome'
+gem "font-awesome-rails"
+gem "annotate"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

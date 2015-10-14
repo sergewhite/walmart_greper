@@ -1,0 +1,6 @@
+%h4 Enter id and query
+
+= simple_form_for(:query, url: query_index_path, html: {method: "POST", class: 'form-inline' }) do |f|
+  = f.input :id, label: "Product ID: "
+  = f.input :query, label: "Keys: "
+  = button_tag "Get It", :class => "btn btn-success", :type => :submit

@@ -37,6 +37,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    annotate (2.6.10)
+      activerecord (>= 3.2, <= 4.3)
+      rake (~> 10.4)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
     coffee-rails (4.0.1)
@@ -49,6 +52,8 @@ GEM
     commonjs (0.2.7)
     erubis (2.7.0)
     execjs (2.6.0)
+    font-awesome-rails (4.4.0.0)
+      railties (>= 3.2, < 5.0)
     haml (4.0.6)
       tilt
     hike (1.2.3)
@@ -148,7 +153,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   coffee-rails (~> 4.0.0)
+  font-awesome-rails
   haml
   jbuilder (~> 2.0)
   jquery-rails
