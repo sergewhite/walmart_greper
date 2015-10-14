@@ -3,7 +3,7 @@ require 'json'
 
 class Greper
   attr_reader :errors, :product_id, :parsed_data
-  POOL_SIZE   = 5  # max pool size
+  POOL_SIZE = 20  # max pool size
   PER_PAGE = 20
   def initialize options = {}
     @product_id = options[:id]
