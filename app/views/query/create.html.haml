@@ -1,6 +1,9 @@
 - if defined?(@greper) && @greper.parsed_data.present?
+  %h4
+    Results for:
+    = @greper.product_id
   - @greper.parsed_data.each do |page, html|
     %p
-    %p= raw Nokogiri.parse(html).search(".js-customer-review-text")
+    %p= raw html
 - else
   %h4 There is now reviews for this query

@@ -2,14 +2,13 @@ require 'net/http'
 require 'json'
 
 class Greper
-  attr_reader :errors, :reviews, :parsed_data, :total_pages
+  attr_reader :errors, :product_id, :parsed_data
   POOL_SIZE   = 5  # max pool size
   PER_PAGE = 20
   def initialize options = {}
     @product_id = options[:id]
     @query = options[:query]
     @errors = []
-    @reviews = []
     @pool    = [] # pool
     @parsed_data = {} # parsed data with page number
     @total_pages = 0
@@ -19,7 +18,7 @@ class Greper
 
   def get_reviews
     total_reviews = get_total_reviews_count
-    @total_pages = total_reviews / 20
+    @total_pages = (total_reviews / PER_PAGE.to_f).ceil
     @total_pages = 1 if @total_pages < 1
     get_data if total_reviews > 0
   end
@@ -28,8 +27,6 @@ class Greper
 
     def get_total_reviews_count
       url = URI.parse("http://api.walmartlabs.com/v1/reviews/#{@product_id}?format=json&apiKey=q5n9pqab3aurxsr5kfrye44b")
-      #req = Net::HTTP.get(url)
-
       req = Net::HTTP::Get.new(url.to_s)
       res = Net::HTTP.start(url.host, url.port) {|http|
         http.request(req)
@@ -42,6 +39,7 @@ class Greper
     def get_data
       check_pool
       fetch_pages
+      @parsed_data.sort
       # apply fulltext search
       #apply_filter
     end
@@ -80,7 +78,7 @@ class Greper
       }
       res = JSON.parse res.body
       #html = Nokogiri.parse parsed_response
-      @parsed_data[page] = res["reviewsHtml"]
+      @parsed_data[page] = Nokogiri.parse(res["reviewsHtml"]).search(".js-customer-review-text")
       #need more testing to identify the errors
       rescue
     end
